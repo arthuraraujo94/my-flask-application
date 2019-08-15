@@ -146,7 +146,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-flask/dev/1565901631325-2019-08-15T20:40:31.325Z/serverless-flask.zip"
+                "S3Key": "serverless/serverless-flask/dev/1565902110176-2019-08-15T20:48:30.176Z/serverless-flask.zip"
               },
               "FunctionName": "serverless-flask-dev-app",
               "Handler": "wsgi_handler.handler",
@@ -170,14 +170,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersiontf2QfntkJER7tMQzUCtdMMJLtwmMqqtkiHDH30wpE": {
+          "AppLambdaVersiona8UWW4fsI11ZCV9h9ghg74oRigqkj3V9RPXbuQJqM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "qDPVXwH/9uvKdD9dVUJzsI9Zu4fMBaYKzJABec6B4H4="
+              "CodeSha256": "DOhNcWuALWRBWusRvJ0mpFerFxseQMRuMYoFUbZ0ihk="
             }
           },
           "ApiGatewayRestApi": {
@@ -295,7 +295,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1565901586969": {
+          "ApiGatewayDeployment1565902026268": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -377,7 +377,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersiontf2QfntkJER7tMQzUCtdMMJLtwmMqqtkiHDH30wpE"
+              "Ref": "AppLambdaVersiona8UWW4fsI11ZCV9h9ghg74oRigqkj3V9RPXbuQJqM"
             }
           },
           "ServiceEndpoint": {
@@ -500,7 +500,7 @@
     "artifact": "C:\\Users\\arthu\\Documents\\gravol\\my-flask-application\\.serverless\\serverless-flask.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-flask/dev/1565901631325-2019-08-15T20:40:31.325Z",
+    "artifactDirectoryName": "serverless/serverless-flask/dev/1565902110176-2019-08-15T20:48:30.176Z",
     "artifact": "serverless-flask.zip"
   }
 }

@@ -1,5 +1,4 @@
 Pillow==6.0.0
-Werkzeug==0.12
 boto3==1.9.204
 botocore==1.12.204
 botostubs==0.10.1.9.202
@@ -22,5 +21,3 @@ six==1.12.0
 tqdm==4.32.1
 urllib3==1.25.3
 virtualenv==16.6.1
-whitenoise==3.3.1
-wsgi-request-logger==0.4.6

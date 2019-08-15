@@ -77,6 +77,25 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/serverless-flask-dev*:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "UsersDynamoDBTable",
+                        "Arn"
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -98,52 +117,6 @@
         }
       }
     },
-    "EnterpriseLogAccessIamRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": "arn:aws:iam::802587217904:root"
-              },
-              "Action": "sts:AssumeRole",
-              "Condition": {
-                "StringEquals": {
-                  "sts:ExternalId": "ServerlessEnterprise-5jkMmBJFs2Yy7XhFS3"
-                }
-              }
-            }
-          ]
-        },
-        "Policies": [
-          {
-            "PolicyName": "LogFilterAccess",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "logs:FilterLogEvents"
-                  ],
-                  "Resource": [
-                    {
-                      "Fn::GetAtt": [
-                        "AppLogGroup",
-                        "Arn"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
     "AppLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -151,10 +124,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-flask/dev/1565702366292-2019-08-13T13:19:26.292Z/serverless-flask.zip"
+          "S3Key": "serverless/serverless-flask/dev/1565900036539-2019-08-15T20:13:56.539Z/serverless-flask.zip"
         },
         "FunctionName": "serverless-flask-dev-app",
-        "Handler": "s_app.handler",
+        "Handler": "wsgi_handler.handler",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -163,21 +136,26 @@
           ]
         },
         "Runtime": "python3.6",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "USERS_TABLE": "users-table-dev"
+          }
+        }
       },
       "DependsOn": [
         "AppLogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersionHbMyawFfpkvtkYeNc1zIK5PgkNXCLJeivACfZMWHs": {
+    "AppLambdaVersionxuLfTE4ZYZrcU5NUv3tTLsFNNgBa7jOGDKHtV8f9q8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "MqCGt4abK/z0uhbKQyn/7vNcoeCZfPDFdrW2oRj6psc="
+        "CodeSha256": "gCA/D0ahcCmE4oALtGVDDpIE1WV61iQ3cNBVaoRFCK8="
       }
     },
     "ApiGatewayRestApi": {
@@ -295,7 +273,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1565702350584": {
+    "ApiGatewayDeployment1565899820227": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -345,79 +323,26 @@
         }
       }
     },
-    "ApiGatewayLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
+    "UsersDynamoDBTable": {
+      "Type": "AWS::DynamoDB::Table",
       "Properties": {
-        "LogGroupName": "/aws/api-gateway/serverless-flask-dev"
-      }
-    },
-    "IamRoleApiGatewayLogs": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "apigateway.amazonaws.com"
-                ]
-              },
-              "Action": [
-                "sts:AssumeRole"
-              ]
-            }
-          ]
-        },
-        "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          }
         ],
-        "Path": "/",
-        "RoleName": {
-          "Fn::Join": [
-            "-",
-            [
-              "serverless-flask",
-              "dev",
-              {
-                "Ref": "AWS::Region"
-              },
-              "apiGatewayLogsRole"
-            ]
-          ]
-        }
-      }
-    },
-    "ApiGatewayAccount": {
-      "Type": "AWS::ApiGateway::Account",
-      "Properties": {
-        "CloudWatchRoleArn": {
-          "Fn::GetAtt": [
-            "IamRoleApiGatewayLogs",
-            "Arn"
-          ]
-        }
-      }
-    },
-    "CloudWatchLogsSubscriptionFilterAppLogGroup": {
-      "Type": "AWS::Logs::SubscriptionFilter",
-      "Properties": {
-        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:5jkMmBJFs2Yy7XhFS3#cvZyhZ8cJfmJFDjTqn#serverless-flask#dev",
-        "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
-        "LogGroupName": {
-          "Ref": "AppLogGroup"
-        }
-      }
-    },
-    "CloudWatchLogsSubscriptionFilterApiGatewayLogGroup": {
-      "Type": "AWS::Logs::SubscriptionFilter",
-      "Properties": {
-        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:5jkMmBJFs2Yy7XhFS3#cvZyhZ8cJfmJFDjTqn#serverless-flask#dev",
-        "FilterPattern": "\"SLS_ACCESS_LOG\"",
-        "LogGroupName": {
-          "Ref": "ApiGatewayLogGroup"
-        }
+        "KeySchema": [
+          {
+            "AttributeName": "userId",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        },
+        "TableName": "users-table-dev"
       }
     }
   },
@@ -427,18 +352,10 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "EnterpriseLogAccessIamRole": {
-      "Value": {
-        "Fn::GetAtt": [
-          "EnterpriseLogAccessIamRole",
-          "Arn"
-        ]
-      }
-    },
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionHbMyawFfpkvtkYeNc1zIK5PgkNXCLJeivACfZMWHs"
+        "Ref": "AppLambdaVersionxuLfTE4ZYZrcU5NUv3tTLsFNNgBa7jOGDKHtV8f9q8"
       }
     },
     "ServiceEndpoint": {

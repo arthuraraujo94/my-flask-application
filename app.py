@@ -7,7 +7,7 @@ import boto3
 from flask import Flask, jsonify, request
 app = Flask(__name__)
 
-USERS_TABLE = os.environ['USERS_TABLE']
+MATCHES_TABLE = os.environ['MATCHES_TABLE']
 client = boto3.client('dynamodb')
 
 
@@ -16,12 +16,12 @@ def hello():
     return "Hello World!"
 
 
-@app.route("/users/<string:user_id>")
-def get_user(user_id):
+@app.route("/matches/<string:match_id>")
+def get_user(match_id):
     resp = client.get_item(
-        TableName=USERS_TABLE,
+        TableName=MATCHES_TABLE,
         Key={
-            'userId': { 'S': user_id }
+            'matchId': { 'S': match_id }
         }
     )
     item = resp.get('Item')
@@ -29,27 +29,49 @@ def get_user(user_id):
         return jsonify({'error': 'User does not exist'}), 404
 
     return jsonify({
-        'userId': item.get('userId').get('S'),
-        'name': item.get('name').get('S')
+        'matchId': item.get('matchId').get('S'),
+        'title': item.get('title').get('S'),
+        'matchId': item.get('matchId').get('S'),
+        'title': item.get('title').get('S'),
+        'home': item.get('home').get('S'),
+        'away': item.get('away').get('S'),
+        'home_score': item.get('home_score').get('S'),
+        'away_score': item.get('away_score').get('S'),
+        'description': item.get('description').get('S')
     })
 
 
-@app.route("/users", methods=["POST"])
-def create_user():
-    user_id = request.json.get('userId')
-    name = request.json.get('name')
-    if not user_id or not name:
-        return jsonify({'error': 'Please provide userId and name'}), 400
+@app.route("/matches", methods=["POST"])
+def create_match():
+    match_id = request.json.get('matchId')
+    title = request.json.get('title')
+    home = request.json.get('home')
+    away = request.json.get('away')
+    home_score = request.json.get('home_score')
+    away_score = request.json.get('away_score')
+    description = request.json.get('description')
+    if not match_id or not title:
+        return jsonify({'error': 'Please provide matchId and title'}), 400
 
     resp = client.put_item(
-        TableName=USERS_TABLE,
+        TableName=MATCHES_TABLE,
         Item={
-            'userId': {'S': user_id },
-            'name': {'S': name }
+            'matchId': {'S': match_id },
+            'title': {'S': title },
+            'home': {'S': home },
+            'away': {'S': away },
+            'home_score': {'S': home_score },
+            'away_score': {'S': away_score },
+            'description': {'S': description }
         }
     )
 
     return jsonify({
-        'userId': user_id,
-        'name': name
+        'matchId': match_id,
+        'title': title,
+        'home': home,
+        'away': away,
+        'home_score': home_score,
+        'away_score': away_score,
+        'description': description
     })

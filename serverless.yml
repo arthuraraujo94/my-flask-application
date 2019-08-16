@@ -7,7 +7,7 @@ plugins:
   - serverless-wsgi
 
 custom:
-  tableName: 'users-table-${self:provider.stage}'
+  tableName: 'matches-table-${self:provider.stage}'
   wsgi:
     app: app.app
     packRequirements: false
@@ -29,9 +29,9 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["MatchesDynamoDBTable", "Arn" ] }
   environment:
-    USERS_TABLE: ${self:custom.tableName}
+    MATCHES_TABLE: ${self:custom.tableName}
 
 functions:
   app:
@@ -42,16 +42,16 @@ functions:
 
 resources:
   Resources:
-    UsersDynamoDBTable:
+    MatchesDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: userId
+            AttributeName: matchId
             AttributeType: S
         KeySchema:
           -
-            AttributeName: userId
+            AttributeName: matchId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

@@ -24,7 +24,7 @@
           "Resource": [
             {
               "Fn::GetAtt": [
-                "UsersDynamoDBTable",
+                "MatchesDynamoDBTable",
                 "Arn"
               ]
             }
@@ -32,7 +32,7 @@
         }
       ],
       "environment": {
-        "USERS_TABLE": "users-table-dev"
+        "MATCHES_TABLE": "matches-table-dev"
       },
       "versionFunctions": true,
       "remoteFunctionData": null,
@@ -146,7 +146,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-flask/dev/1565914368918-2019-08-16T00:12:48.918Z/serverless-flask.zip"
+                "S3Key": "serverless/serverless-flask/dev/1565969923026-2019-08-16T15:38:43.026Z/serverless-flask.zip"
               },
               "FunctionName": "serverless-flask-dev-app",
               "Handler": "wsgi_handler.handler",
@@ -161,7 +161,7 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "USERS_TABLE": "users-table-dev"
+                  "MATCHES_TABLE": "matches-table-dev"
                 }
               }
             },
@@ -170,14 +170,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersion3gMq0Oz15jgFQSirK6xguC4WBFJlktAM5GjqkYmQq8": {
+          "AppLambdaVersion42UXS2b08ZYBcHN848cHuMbgW4l3QIxbLhp6RwMTNo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "9d+Yx46oupOh4aRy/feSP/0v+DfdLElFSsNpXR4cUjU="
+              "CodeSha256": "FX9tIjamLUNunuNcv6i3Q8LRwgrtDHtCvdV4hBrepcQ="
             }
           },
           "ApiGatewayRestApi": {
@@ -295,7 +295,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1565914314773": {
+          "ApiGatewayDeployment1565969897156": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -345,18 +345,18 @@
               }
             }
           },
-          "UsersDynamoDBTable": {
+          "MatchesDynamoDBTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
               "AttributeDefinitions": [
                 {
-                  "AttributeName": "userId",
+                  "AttributeName": "matchId",
                   "AttributeType": "S"
                 }
               ],
               "KeySchema": [
                 {
-                  "AttributeName": "userId",
+                  "AttributeName": "matchId",
                   "KeyType": "HASH"
                 }
               ],
@@ -364,7 +364,7 @@
                 "ReadCapacityUnits": 1,
                 "WriteCapacityUnits": 1
               },
-              "TableName": "users-table-dev"
+              "TableName": "matches-table-dev"
             }
           }
         },
@@ -377,7 +377,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersion3gMq0Oz15jgFQSirK6xguC4WBFJlktAM5GjqkYmQq8"
+              "Ref": "AppLambdaVersion42UXS2b08ZYBcHN848cHuMbgW4l3QIxbLhp6RwMTNo"
             }
           },
           "ServiceEndpoint": {
@@ -435,7 +435,7 @@
       "vpc": {}
     },
     "custom": {
-      "tableName": "users-table-dev",
+      "tableName": "matches-table-dev",
       "wsgi": {
         "app": "app.app",
         "packRequirements": false
@@ -470,18 +470,18 @@
     },
     "resources": {
       "Resources": {
-        "UsersDynamoDBTable": {
+        "MatchesDynamoDBTable": {
           "Type": "AWS::DynamoDB::Table",
           "Properties": {
             "AttributeDefinitions": [
               {
-                "AttributeName": "userId",
+                "AttributeName": "matchId",
                 "AttributeType": "S"
               }
             ],
             "KeySchema": [
               {
-                "AttributeName": "userId",
+                "AttributeName": "matchId",
                 "KeyType": "HASH"
               }
             ],
@@ -489,7 +489,7 @@
               "ReadCapacityUnits": 1,
               "WriteCapacityUnits": 1
             },
-            "TableName": "users-table-dev"
+            "TableName": "matches-table-dev"
           }
         }
       },
@@ -500,7 +500,7 @@
     "artifact": "C:\\Users\\arthu\\Documents\\gravol\\my-flask-application\\.serverless\\serverless-flask.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-flask/dev/1565914368918-2019-08-16T00:12:48.918Z",
+    "artifactDirectoryName": "serverless/serverless-flask/dev/1565969923026-2019-08-16T15:38:43.026Z",
     "artifact": "serverless-flask.zip"
   }
 }

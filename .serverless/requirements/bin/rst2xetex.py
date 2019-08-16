@@ -1,4 +1,4 @@
-#!C:\Users\arthu\AppData\Local\Programs\Python\Python37-32\python.exe
+#!C:\Users\arthu\Documents\gravol\my-flask-application\venv\Scripts\python.exe
 
 # $Id: rst2xetex.py 7847 2015-03-17 17:30:47Z milde $
 # Author: Guenter Milde

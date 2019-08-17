@@ -19,7 +19,7 @@
     "AppLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/serverless-flask-dev-app"
+        "LogGroupName": "/aws/lambda/gravol-api-dev-app"
       }
     },
     "IamRoleLambdaExecution": {
@@ -48,7 +48,7 @@
                 "-",
                 [
                   "dev",
-                  "serverless-flask",
+                  "gravol-api",
                   "lambda"
                 ]
               ]
@@ -63,7 +63,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/serverless-flask-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/gravol-api-dev*:*"
                     }
                   ]
                 },
@@ -74,7 +74,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/serverless-flask-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/gravol-api-dev*:*:*"
                     }
                   ]
                 },
@@ -106,7 +106,7 @@
           "Fn::Join": [
             "-",
             [
-              "serverless-flask",
+              "gravol-api",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -124,9 +124,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-flask/dev/1565969923026-2019-08-16T15:38:43.026Z/serverless-flask.zip"
+          "S3Key": "serverless/gravol-api/dev/1566075229037-2019-08-17T20:53:49.037Z/gravol-api.zip"
         },
-        "FunctionName": "serverless-flask-dev-app",
+        "FunctionName": "gravol-api-dev-app",
         "Handler": "wsgi_handler.handler",
         "MemorySize": 1024,
         "Role": {
@@ -139,7 +139,7 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "MATCHES_TABLE": "matches-table-dev"
+            "MATCHES_TABLE": "gravol-table-dev"
           }
         }
       },
@@ -148,20 +148,20 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersion42UXS2b08ZYBcHN848cHuMbgW4l3QIxbLhp6RwMTNo": {
+    "AppLambdaVersion08IkeYDjh5C9TqH11jL3NUWu5rzbv5WIwgvDAs5JI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "FX9tIjamLUNunuNcv6i3Q8LRwgrtDHtCvdV4hBrepcQ="
+        "CodeSha256": "8iGM1QM/BnGaskupSxN1uE1kUmt4sbusmbye039we1o="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-serverless-flask",
+        "Name": "dev-gravol-api",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -273,7 +273,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1565969897156": {
+    "ApiGatewayDeployment1566075201317": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -342,7 +342,7 @@
           "ReadCapacityUnits": 1,
           "WriteCapacityUnits": 1
         },
-        "TableName": "matches-table-dev"
+        "TableName": "gravol-table-dev"
       }
     }
   },
@@ -355,7 +355,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersion42UXS2b08ZYBcHN848cHuMbgW4l3QIxbLhp6RwMTNo"
+        "Ref": "AppLambdaVersion08IkeYDjh5C9TqH11jL3NUWu5rzbv5WIwgvDAs5JI"
       }
     },
     "ServiceEndpoint": {

@@ -4,12 +4,14 @@ import os
 
 import boto3
 
+import uuid
+
 from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 MATCHES_TABLE = os.environ['MATCHES_TABLE']
 client = boto3.client('dynamodb')
-
+matchId = uuid.uuid4()
 
 @app.route("/")
 def hello():

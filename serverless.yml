@@ -1,13 +1,13 @@
 # serverless.yml
 
-service: serverless-flask
+service: gravol-api
 
 plugins:
   - serverless-python-requirements
   - serverless-wsgi
 
 custom:
-  tableName: 'matches-table-${self:provider.stage}'
+  tableName: 'gravol-table-${self:provider.stage}'
   wsgi:
     app: app.app
     packRequirements: false
